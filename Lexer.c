@@ -70,20 +70,20 @@ bool isNumber(){
     if(!isdigit(currentChar))
         return FALSE;
 
-    char num[MAXDIGIT];
+    char num[MAXDIGIT+1];
     int i = 0;
     num[0] = currentChar;
 
-    while( ++i < MAXDIGIT && isdigit(num[i] = currentChar = NextChar()));
+    while( ++i <= MAXDIGIT && isdigit(num[i] = currentChar = NextChar()));
 
-    if(i >= MAXDIGIT)
+    if(i > MAXDIGIT)
         LexError("Number has several digit");
         
     num[i] = '\0';
 
     strcpy(currentToken.name, "NUM");
     strcpy(currentToken.value, num);
-    currentChar = NextChar();
+
     return TRUE;
 }
 
@@ -96,7 +96,7 @@ bool isWord(){
     int i = 0, j = 0, cmp=0;
     word[0] = toupper(currentChar);
 
-    while( ++i < MAXCHAR && (isalnum( word[i] = currentChar = toupper(NextChar()) ) || word[i] == '_' ));
+    while( ++i <= MAXCHAR && (isalnum( word[i] = currentChar = toupper(NextChar()) ) || word[i] == '_' ));
 
     if(i == MAXCHAR)
         LexError("there is many characters in this word");
@@ -104,10 +104,10 @@ bool isWord(){
     word[i] = '\0';
 
     // Verify this word match a keyword in the list of keywords
-    while( (cmp=strcmp(word , keyword_list[j++])) != 0 && j < NBRKEYWORDS);
+    while( (cmp=strcmp(word , keywords_list[j++])) != 0 && j < NBRKEYWORDS);
 
     if(cmp == 0){ // is keyword
-        strcpy(currentToken.name, keyword_list[j-1]);
+        strcpy(currentToken.name, keywords_list[j-1]);
         strcpy(currentToken.value, word);
     }
 

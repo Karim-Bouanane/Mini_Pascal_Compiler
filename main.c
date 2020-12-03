@@ -5,6 +5,10 @@ const char* fileName = "C:\\Users\\George Deker\\Desktop\\Compila TP\\program.pa
 int main(){
 
     program = fopen(fileName, "r");
+    if(program == NULL){
+        perror("Error while opening the file");
+        exit(1);
+    }
     NextChar();
     getToken();
     do{

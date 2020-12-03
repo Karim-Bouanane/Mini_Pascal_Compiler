@@ -1,30 +1,41 @@
+/***** Libraries ******/
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h> 
 #include <string.h>
 #include <ctype.h>
 
-#define TRUE    1
-#define FALSE   0
+typedef enum{FALSE, TRUE} bool;
 
-#define NBRKEYWORDS 11
-#define NBRSPECIALTOKENS 16
-
+/***** Definitions of Tokens ******/
 
 typedef enum          
-{PROGRAM,   BEGIN,   END,   CONST,    VAR,   IF,   THEN,   WHILE,   DO,   READ,   WRITE} keyword_code;
-const char* keyword_list[]= 
+{
+// keywords tokens
+PROGRAM,  BEGIN,  END,  CONST,  VAR,  IF,  THEN,  WHILE,  DO,  READ,  WRITE,
+// Symbol tokens
+PV,  PT,  PLUS,  MOINS,  MULT,  DIV,  VIR,  EG,  AFF,  INF,  INFEG,  SUP,  SUPEG,  DIFF,  PO,  PF,
+// Other tokens
+ID,  NUM, EndOfFile
+} token_code;
+
+
+const char* keywords_list[]= 
 {"PROGRAM", "BEGIN", "END", "CONST" , "VAR", "IF", "THEN", "WHILE", "DO", "READ", "WRITE"};
 
-typedef enum                 
-{ PV,  PT,  PLUS, MOINS, MULT, DIV, VIR,  EG, AFF, INF,  INFEG, SUP, SUPEG, DIFF, PO,  PF} specialTokens_code;
 const char* specialTokens_list[] = 
 { "PV",  "PT",  "PLUS", "MOINS", "MULT", "DIV", "VIR",  "EG", "AFF", "INF",  "INFEG", "SUP", "SUPEG", "DIFF", "PO",  "PF"};
 const char* specialTokens_symb[] = 
 {";",    ".",    "+",    "-",     "*",    "/",   "," ,   "=",  ":=",  "<",    "<=",    ">",    ">=",  "!",     "(",   ")"};
 
 
-/***** Declarations ******/
+int keywords_list_size = sizeof(keywords_list) / sizeof(keywords_list[0]);
+int specialTokens_list_size = sizeof(specialTokens_list) / sizeof(specialTokens_list[0]);
+
+#define NBRKEYWORDS         keywords_list_size
+#define NBRSPECIALTOKENS    specialTokens_list_size
+
+/***** Global Declarations ******/
 
 FILE* program ;
 
@@ -32,6 +43,7 @@ FILE* program ;
 #define lenName     20
 
 typedef struct{
+    token_code code;
     char name[lenName];
     char value[lenValue];
 } Token;
